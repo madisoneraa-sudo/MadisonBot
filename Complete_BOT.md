@@ -528,10 +528,10 @@ async def show_hours(callback: CallbackQuery):
 
 @router.callback_query(F.data == "back")
 async def go_back(callback: CallbackQuery):
-    """Go back to main menu"""
+    """Go back to main shop"""
     await callback.message.edit_text(
         f"👋 Welcome back, {callback.from_user.full_name}!\n\n"
-        f"What would you like to do?",
+        f"What would you like to buy?",
         reply_markup=get_main_keyboard()
     )
     await callback.answer()

@@ -7,7 +7,7 @@ from aiogram.enums import ParseMode
 
 # Import handlers
 from handlers.start import router as start_router
-from handlers.menu import router as menu_router
+from handlers.store import router as store_router
 from config import config
 
 # Configure logging
@@ -31,7 +31,7 @@ async def main():
     
     # Register routers
     dp.include_router(start_router)
-    dp.include_router(menu_router)
+    dp.include_router(store_router)
     
     # Start polling
     logger.info("Starting bot...")

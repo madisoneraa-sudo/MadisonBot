@@ -11,10 +11,10 @@ router = Router()
 async def start_handler(message: Message):
     """Handle /start command"""
     await message.answer(
-        f"👋 Hello, {message.from_user.full_name}!\n"
+        f"Good day to you, {message.from_user.full_name}!\n"
         f"Welcome to our Restaurant Bot!\n\n"
         f"I can help you:\n"
-        f"🍽️ Browse our menu\n"
+        f"👚 Browse our shop\n"
         f"📞 Get contact information\n"
         f"📍 Find our location\n"
         f"⏰ Check opening hours",

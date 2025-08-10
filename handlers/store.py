@@ -7,16 +7,16 @@ from keyboards.main_keyboard import get_main_keyboard, get_back_keyboard
 # Create router instance
 router = Router()
 
-@router.callback_query(F.data == "menu")
-async def show_menu_categories(callback: CallbackQuery):
-    """Show menu categories"""
+@router.callback_query(F.data == "store")
+async def show_store_categories(callback: CallbackQuery):
+    """Show store categories"""
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text="🍕 Pizza", callback_data="category_pizza"),
-            InlineKeyboardButton(text="🍔 Burgers", callback_data="category_burgers")
+            InlineKeyboardButton(text="Dresses👗", callback_data="category_dresses"),
+            InlineKeyboardButton(text="Pants👖", callback_data="category_pants")
         ],
         [
-            InlineKeyboardButton(text="🥤 Drinks", callback_data="category_drinks"),
+            InlineKeyboardButton(text="Shoes👠", callback_data="category_shoes"),
             InlineKeyboardButton(text="🛒 Cart", callback_data="cart")
         ],
         [
@@ -25,7 +25,7 @@ async def show_menu_categories(callback: CallbackQuery):
     ])
     
     await callback.message.edit_text(
-        "🍽️ <b>Choose a category:</b>",
+        "🏬 <b>Choose a category:</b>",
         reply_markup=keyboard
     )
     await callback.answer()
@@ -34,14 +34,14 @@ async def show_menu_categories(callback: CallbackQuery):
 async def show_category_items(callback: CallbackQuery):
     """Show items in selected category"""
     category = callback.data.split("_")[1]
-    items = db.get_menu_category(category)
+    items = db.get_store_category(category)
     
     if not items:
         await callback.answer("This category is empty!", show_alert=True)
         return
     
     keyboard_buttons = []
-    text = f"🍽️ <b>{category.title()}</b>\n\n"
+    text = f"🏬 <b>{category.title()}</b>\n\n"
     
     for item in items:
         text += f"<b>{item['name']}</b> - ${item['price']:.2f}\n"
@@ -55,7 +55,7 @@ async def show_category_items(callback: CallbackQuery):
         ])
     
     keyboard_buttons.append([
-        InlineKeyboardButton(text="⬅️ Back to Menu", callback_data="menu")
+        InlineKeyboardButton(text="⬅️ Back to Store", callback_data="store")
     ])
     
     keyboard = InlineKeyboardMarkup(inline_keyboard=keyboard_buttons)
@@ -85,9 +85,9 @@ async def show_cart(callback: CallbackQuery):
     if not cart["items"]:
         await callback.message.edit_text(
             "🛒 <b>Your cart is empty</b>\n\n"
-            "Add some items from the menu!",
+            "Add some items from the store!",
             reply_markup=InlineKeyboardMarkup(inline_keyboard=[
-                [InlineKeyboardButton(text="🍽️ Browse Menu", callback_data="menu")],
+                [InlineKeyboardButton(text="🏬 Browse Store", callback_data="store")],
                 [InlineKeyboardButton(text="⬅️ Back", callback_data="back")]
             ])
         )
@@ -116,7 +116,7 @@ async def show_cart(callback: CallbackQuery):
             InlineKeyboardButton(text="🗑️ Clear Cart", callback_data="clear_cart")
         ],
         [
-            InlineKeyboardButton(text="🍽️ Add More Items", callback_data="menu"),
+            InlineKeyboardButton(text="🏬 Add More Items", callback_data="store"),
             InlineKeyboardButton(text="⬅️ Back", callback_data="back")
         ]
     ])
@@ -160,7 +160,7 @@ async def checkout(callback: CallbackQuery):
     db.clear_cart(callback.from_user.id)
     
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="🏠 Main Menu", callback_data="back")]
+        [InlineKeyboardButton(text="👚 Main Collection", callback_data="back")]
     ])
     
     await callback.message.edit_text(order_text, reply_markup=keyboard)
@@ -173,13 +173,13 @@ async def show_contact(callback: CallbackQuery):
 📞 <b>Contact Information</b>
 
 📱 Phone: +1 (555) 123-4567
-📧 Email: info@restaurant.com
-🌐 Website: www.restaurant.com
+📧 Email: MadisonEraa@clothingStore.com
+🌐 Website: www.MadisonEraa.com
 
 <b>Follow us:</b>
-📘 Facebook: @restaurant
-📷 Instagram: @restaurant
-🐦 Twitter: @restaurant
+📘 Facebook: @MadisonEra
+📷 Instagram: @MadisonEra
+🐦 Twitter: @MadisonEra
     """
     
     await callback.message.edit_text(
@@ -193,9 +193,9 @@ async def show_location(callback: CallbackQuery):
     """Show restaurant location"""
     await callback.message.edit_text(
         "📍 <b>Our Location</b>\n\n"
-        "123 Main Street\n"
-        "City Center, State 12345\n\n"
-        "We're located in the heart of downtown!",
+        "123 Madison Street\n"
+        "City Center, State 18755\n\n"
+        "We're located in the heart of MadisonTown!",
         reply_markup=get_back_keyboard()
     )
     # Send actual location
@@ -215,7 +215,7 @@ async def show_hours(callback: CallbackQuery):
 <b>Friday - Saturday:</b> 11:00 AM - 11:00 PM
 <b>Sunday:</b> 12:00 PM - 9:00 PM
 
-<b>Kitchen closes 30 minutes before closing time</b>
+<b>Shop closes 30 minutes before closing time</b>
     """
     
     await callback.message.edit_text(
@@ -226,10 +226,10 @@ async def show_hours(callback: CallbackQuery):
 
 @router.callback_query(F.data == "back")
 async def go_back(callback: CallbackQuery):
-    """Go back to main menu"""
+    """Go back to main shop"""
     await callback.message.edit_text(
         f"👋 Welcome back, {callback.from_user.full_name}!\n\n"
-        f"What would you like to do?",
+        f"What would you like to buy?",
         reply_markup=get_main_keyboard()
     )
     await callback.answer()

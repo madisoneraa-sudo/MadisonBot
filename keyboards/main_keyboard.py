@@ -1,10 +1,10 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 def get_main_keyboard():
-    """Create main menu keyboard"""
+    """Create main store keyboard"""
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text="🍽️ Menu", callback_data="menu"),
+            InlineKeyboardButton(text="👚 Store", callback_data="store"),
             InlineKeyboardButton(text="🛒 My Cart", callback_data="cart")
         ],
         [
@@ -18,8 +18,8 @@ def get_main_keyboard():
     return keyboard
 
 def get_back_keyboard():
-    """Create back to main menu keyboard"""
+    """Create back to main store keyboard"""
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="⬅️ Back to Main Menu", callback_data="back")]
+        [InlineKeyboardButton(text="⬅️ Back to Main Store", callback_data="back")]
     ])
     return keyboard
